@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
+import Draggable from 'react-draggable';
 
 import SearchStore from '../stores/SearchStore';
-
-import Draggable from 'react-draggable';
+import GifActions from '../actions/GifActions';
 
 
 export default class PlaygroundStickers extends Component {
@@ -51,8 +51,8 @@ export default class PlaygroundStickers extends Component {
       <div className='userStickerContainer'>
         {
           stickers.map(sticker => (
-            <Draggable bounds= 'parent' moveOnStartChange='true'>
-              <div key={sticker.id}  alt={sticker.id} id='userStickerImgContainer'>
+            <Draggable key={sticker.id} bounds= 'parent' moveOnStartChange='true'>
+              <div alt={sticker.id} id='userStickerImgContainer'>
                 <img className='userSticker' id={sticker.id} src={sticker.image}  onClick={this._dragMe} alt=""/>
               </div>
             </Draggable>

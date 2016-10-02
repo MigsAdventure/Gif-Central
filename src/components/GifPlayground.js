@@ -14,6 +14,7 @@ export default class GifPlayground extends Component {
 
     this._onChange = this._onChange.bind(this);
     this._submitForm = this._submitForm.bind(this);
+    this._sendScreenshot = this._sendScreenshot.bind(this);
   }
 
   componentWillMount() {
@@ -39,6 +40,25 @@ export default class GifPlayground extends Component {
     GifActions.fetchStickerSearch(input);
   }
 
+  _sendScreenshot(e) {
+    e.preventDefault();
+
+    let playgroundGifContainer = document.getElementById('playgroundGifContainer')
+    html2canvas(playgroundGifContainer,  {
+      onrendered: canvas => (GifActions.sendScreenshot(canvas)),
+      allowTaint: true,
+    });
+
+    // let playgroundGifContainer = document.getElementById('playgroundGifContainer')
+    // html2canvas(playgroundGifContainer,  {
+    //   onrendered: function(canvas) {
+    //     document.body.appendChild(canvas);
+    //   },
+    //   allowTaint: true,
+    // });
+
+  }
+
   render() {
     let { image } = this.state;
 
@@ -52,6 +72,7 @@ export default class GifPlayground extends Component {
             <input ref='searchStickerInput' type="text" className="form-control" placeholder="Category"/>
           </div>
           <button onClick={this._submitForm} type="submit" className="btn btn-primary">Find Sticker</button>
+          <button onClick={this._sendScreenshot} className="btn btn-primary">Screen Shot</button>
         </form>
         <StickerBar />
         <div className='playgroundGifContainer' id='playgroundGifContainer'>

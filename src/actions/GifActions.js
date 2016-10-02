@@ -29,6 +29,14 @@ const GifActions = {
     })
   },
 
+  sendScreenshot(canvas) {
+    // console.log('canvas of GifActions: ',canvas);
+    AppDispatcher.dispatch({
+      type: 'SEND_CANVAS',
+      payload: { canvas }
+    })
+  },
+
 
 }
 

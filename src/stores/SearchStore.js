@@ -5,6 +5,7 @@ let _searchResults = [];
 let _imageUrl = '';
 let _stickerResults = [];
 let _stickerPackages = [];
+let _canvases = [];
 
 class SearchStore extends EventEmitter {
   constructor() {
@@ -32,6 +33,12 @@ class SearchStore extends EventEmitter {
 
         case 'SEND_STICKER_IMG':
         _stickerPackages.push(payload.stickerPackage);
+        this.emit('CHANGE');
+        break;
+
+        case 'SEND_CANVAS':
+        _canvases.push(payload.canvas);
+        console.log('_canvases in store: ',_canvases);
         this.emit('CHANGE');
         break;
 
@@ -63,6 +70,10 @@ class SearchStore extends EventEmitter {
 
   getStickerPackage() {
     return _stickerPackages;
+  }
+
+  getCanvases() {
+    return _canvases;
   }
 
 }

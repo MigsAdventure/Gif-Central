@@ -25,6 +25,9 @@ export default class Layout extends Component {
           <li role="presentation" className={classNames({ active: path === `/gifplayground/${this.props.params.id}`})}>
             <Link to={`/gifplayground/${this.props.params.id}`} >Gif Playground</Link>
           </li>
+          <li role='presentation' className={classNames({ active: path === '/screenshots'})}>
+            <Link to='/screenshots'>Screen Shots</Link>
+          </li>
 
         </ul>
 
