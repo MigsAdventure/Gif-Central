@@ -11,7 +11,6 @@ class SearchStore extends EventEmitter {
   constructor() {
     super();
 
-
     AppDispatcher.register(action => {
       let { type, payload } = action;
       switch (type) {
@@ -33,12 +32,40 @@ class SearchStore extends EventEmitter {
 
         case 'SEND_STICKER_IMG':
         _stickerPackages.push(payload.stickerPackage);
+        console.log('_stickerPackages in store: ', _stickerPackages)
         this.emit('CHANGE');
         break;
 
-        case 'SEND_CANVAS':
-        _canvases.push(payload.canvas);
-        console.log('_canvases in store: ',_canvases);
+        case 'SEND_PROMISE':
+        _canvases.push(payload.myPackage);
+        this.emit('CHANGE');
+        break;
+
+        case 'REMOVE_SHOT':
+        let x = _canvases.filter( promise => {
+          if (promise.id === payload.id) {
+            promise.promise.then( canvas => {
+              canvas.outerHTML = '';
+            }
+          )
+            return;
+          } else {
+            return promise;
+          }
+        })
+        _canvases = x;
+        this.emit('CHANGE');
+        break;
+
+        case 'REMOVE_STICKER':
+        let undeletedStickers = _stickerPackages.filter( sticker => {
+          if (payload.id === sticker.id) {
+            return;
+          } else {
+            return sticker;
+          }
+        })
+        _stickerPackages = undeletedStickers;
         this.emit('CHANGE');
         break;
 

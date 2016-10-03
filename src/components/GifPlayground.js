@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import uuid from 'uuid'
+import { FontAwesome } from 'react-fontawesome'
+// var FontAwesome = require('react-fontawesome')
 
 import GifActions from '../actions/GifActions'
 import SearchStore from '../stores/SearchStore'
@@ -42,21 +45,18 @@ export default class GifPlayground extends Component {
 
   _sendScreenshot(e) {
     e.preventDefault();
-
     let playgroundGifContainer = document.getElementById('playgroundGifContainer')
-    html2canvas(playgroundGifContainer,  {
-      onrendered: canvas => (GifActions.sendScreenshot(canvas)),
+
+    let x = html2canvas(playgroundGifContainer,  {
       allowTaint: true,
     });
 
-    // let playgroundGifContainer = document.getElementById('playgroundGifContainer')
-    // html2canvas(playgroundGifContainer,  {
-    //   onrendered: function(canvas) {
-    //     document.body.appendChild(canvas);
-    //   },
-    //   allowTaint: true,
-    // });
+    let myPackage = {
+      promise: x,
+      id: uuid(),
+    }
 
+    GifActions.sendScreenshot(myPackage);
   }
 
   render() {
@@ -64,17 +64,28 @@ export default class GifPlayground extends Component {
 
     return (
       <div>
-        <h1>Gif Playground</h1>
-        <form className="form-inline">
-        {/* <form onSubmit={this._submitForm} className="form-inline"> */}
+        <h1>Playground</h1>
+
+        <form >
           <div className="form-group">
-            <label>Search Sticker</label>
-            <input ref='searchStickerInput' type="text" className="form-control" placeholder="Category"/>
-          </div>
-          <button onClick={this._submitForm} type="submit" className="btn btn-primary">Find Sticker</button>
-          <button onClick={this._sendScreenshot} className="btn btn-primary">Screen Shot</button>
+
+            <input ref='searchStickerInput' type="text" className="form-control text-center playInput" placeholder="Search Sticker"/>
+            <button onClick={this._submitForm} type="submit" className="btn btn-primary  stickerBtn">Find Sticker</button>
+
+        </div>
+        {/* <FontAwesome
+        className='fa-camera'
+        name='fa-camera'
+        size='2x'
+        spin
+        style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+      /> */}
+    <button onClick={this._sendScreenshot} className="btn btn-success shotBtn"><span className='fa fa-camera' aria-hidden='true'></span></button>
+
         </form>
+
         <StickerBar />
+
         <div className='playgroundGifContainer' id='playgroundGifContainer'>
           <img className='playgroundGif' src={image} />
           <PlaygroundStickers />

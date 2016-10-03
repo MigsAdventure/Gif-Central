@@ -1,5 +1,9 @@
 import React, {Component} from 'react'
+import uuid from 'uuid';
+
+import GifActions from '../actions/GifActions'
 import SearchStore from '../stores/SearchStore'
+
 
 export default class ScreenShots extends Component {
   constructor() {
@@ -7,6 +11,7 @@ export default class ScreenShots extends Component {
 
     this.state = {
       canvases : SearchStore.getCanvases(),
+      trigger: true,
     }
 
     this._onChange = this._onChange.bind(this);
@@ -26,19 +31,42 @@ export default class ScreenShots extends Component {
     })
   }
 
+  componentWillUpdate() {
+    this.setState({
+      trigger: true,
+    })
+  }
+
+  _removeShot(id) {
+    let {trigger} = this.state;
+    GifActions.removeShot(id);
+
+    this.setState({
+      trigger: false,
+    })
+  }
+
   render() {
     let {canvases} = this.state;
-    console.log('canvas in screenshots:, ', canvases)
+
     return (
-      <div>
-     <h1>ScreenShots</h1>
-     {canvases}
-        {/*{
-          canvases.map((shot, i) => (
-            <div key={i}>{shot}</div>
-          ))
-        }*/}
+      <div id='sanityDiv'>
+        <h1>ScreenShots</h1>
+        {
+          canvases.map((shot, i) => {
+
+            shot.promise.then(canvas => {
+              canvas.setAttribute('id', shot.id);
+              document.getElementById('sanityDiv').appendChild(canvas);
+
+
+            })
+            return (
+              <button key={shot.id} onClick={() => this._removeShot(shot.id)}> X </button>
+            );
+          })
+        }
       </div>
-      )
+    )
   }
 }

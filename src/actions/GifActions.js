@@ -29,14 +29,26 @@ const GifActions = {
     })
   },
 
-  sendScreenshot(canvas) {
-    // console.log('canvas of GifActions: ',canvas);
+  sendScreenshot(myPackage) {
     AppDispatcher.dispatch({
-      type: 'SEND_CANVAS',
-      payload: { canvas }
+      type: 'SEND_PROMISE',
+      payload: { myPackage }
     })
   },
 
+  removeShot(id) {
+    AppDispatcher.dispatch({
+      type: 'REMOVE_SHOT',
+      payload: { id },
+    })
+  },
+
+  removeSticker(id) {
+    AppDispatcher.dispatch({
+      type: 'REMOVE_STICKER',
+      payload: { id },
+    })
+  },
 
 }
 

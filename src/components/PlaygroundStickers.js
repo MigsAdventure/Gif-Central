@@ -14,17 +14,16 @@ export default class PlaygroundStickers extends Component {
     }
 
     this._onChange = this._onChange.bind(this);
-    this._dragMe = this._dragMe.bind(this);
+    this._removeSticker = this._removeSticker.bind(this);
   }
 
   componentWillMount() {
     SearchStore.startListening(this._onChange);
-  
   }
 
   componentWillUnmount() {
     SearchStore.stopListening(this._onChange);
-   
+
   }
 
   _onChange() {
@@ -33,19 +32,12 @@ export default class PlaygroundStickers extends Component {
     })
   }
 
-  _dragMe(e) {
-    let playgroundGifContainer = document.getElementById('playgroundGifContainer')
-    html2canvas(playgroundGifContainer,  {
-      onrendered: function(canvas) {
-        document.body.appendChild(canvas);
-      },
-      allowTaint: true,
-    });
+  _removeSticker(id) {
+    GifActions.removeSticker(id);
   }
 
   render() {
     let { stickers } = this.state;
-    console.log('test: ',);
 
     return (
       <div className='userStickerContainer'>
@@ -53,7 +45,7 @@ export default class PlaygroundStickers extends Component {
           stickers.map(sticker => (
             <Draggable key={sticker.id} bounds= 'parent' moveOnStartChange='true'>
               <div alt={sticker.id} id='userStickerImgContainer'>
-                <img className='userSticker' id={sticker.id} src={sticker.image}  onClick={this._dragMe} alt=""/>
+                <img className='userSticker' id={sticker.id} onDoubleClick={() => this._removeSticker(sticker.id)}src={sticker.image} alt=""/>
               </div>
             </Draggable>
           ))
@@ -61,5 +53,4 @@ export default class PlaygroundStickers extends Component {
       </div>
     )
   }
-
 }
