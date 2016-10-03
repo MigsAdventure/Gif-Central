@@ -29,6 +29,26 @@ const GifActions = {
     })
   },
 
+  sendScreenshot(myPackage) {
+    AppDispatcher.dispatch({
+      type: 'SEND_PROMISE',
+      payload: { myPackage }
+    })
+  },
+
+  removeShot(id) {
+    AppDispatcher.dispatch({
+      type: 'REMOVE_SHOT',
+      payload: { id },
+    })
+  },
+
+  removeSticker(id) {
+    AppDispatcher.dispatch({
+      type: 'REMOVE_STICKER',
+      payload: { id },
+    })
+  },
 
 }
 

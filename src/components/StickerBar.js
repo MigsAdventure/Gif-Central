@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import $ from 'jquery';
 import mousewheel from 'jquery-mousewheel';
+import uuid from 'uuid';
 
 import SearchStore from '../stores/SearchStore';
 import GifActions from '../actions/GifActions';
+
 
 export default class StickerBar extends Component {
   constructor() {
@@ -36,11 +38,11 @@ export default class StickerBar extends Component {
     })
   }
 
-  _sendStickerImg(url, id) {
+  _sendStickerImg(url) {
     // console.log('url: ',url,'id: ',id);
     let StickerPackage = {
       image: url,
-      id,
+      id: uuid(),
     }
     console.log('StickerPackage: ',StickerPackage);
     GifActions.sendStickerImage(StickerPackage);
@@ -59,7 +61,7 @@ export default class StickerBar extends Component {
           {
             stickers.map( (sticker, i) => (
               <div className='stickerImageContainer' key={sticker.id} id={sticker.id}>{i}
-                <img className='stickerImage' onClick={() => this._sendStickerImg(sticker.stickerImage, sticker.id)} src={sticker.stickerImage} alt=""/>
+                <img className='stickerImage' onClick={() => this._sendStickerImg(sticker.stickerImage)} src={sticker.stickerImage} alt=""/>
               </div>
             ))
           }

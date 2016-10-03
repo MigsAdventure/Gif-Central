@@ -11,7 +11,7 @@ export default class SearchPage extends Component {
   render() {
     return (
       <div>
-        <h1>Search Page</h1>
+        <h1>Gif Search</h1>
         <div className='row'>
           <SearchForm />
         </div>
